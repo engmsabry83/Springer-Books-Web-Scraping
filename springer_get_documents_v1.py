@@ -89,10 +89,8 @@ def f_get_sub_disciplines(discipline_url,discipline_name):
 
         
 def main():
-    if platform.system()=='Windows':
-        engine = create_engine('postgresql://postgres:rootpostgres@localhost:5432/postgres')
-    else:
-        engine = create_engine('postgresql://postgres:rootBIGpostgres@192.168.26.132:5432/postgres')
+    #PLEASE CONSIDER CHANGING THE POSTGRES PASSWORD
+    engine = create_engine('postgresql://postgres:postgres@localhost:5432/postgres')
     df_disciplines=f_get_disciplines()
     print("Total Disciplines collected = ",len(df_disciplines))
     df_disciplines.to_sql('springer_disciplines', engine,schema='Springer',if_exists='append', index=False,chunksize=1000)
