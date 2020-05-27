@@ -17,6 +17,9 @@ import pandasql as pdsql
 import platform
 import os
 
+#PLEASE CONSIDER CHANGING THE POSTGRES PASSWORD
+engine = create_engine('postgresql://postgres:postgres@localhost:5432/postgres')
+
 def f_get_url(url,timeout=20):
     while True:
         try:
@@ -63,11 +66,6 @@ def f_get_books_urls(url):
             
 
 def f_create_discipline_directories_tree():  
-    if platform.system()=='Windows':
-        engine = create_engine('postgresql://postgres:rootpostgres@localhost:5432/postgres')
-    else:
-        engine = create_engine('postgresql://postgres:rootBIGpostgres@192.168.26.132:5432/postgres')
-    
     sql_str='SELECT distinct discipline_name, sub_discipline_name,sub_discipline_url FROM "Springer".springer_sub_disciplines order by 1,2'
     df= pd.read_sql_query(sql_str,con=engine)
     
@@ -86,11 +84,6 @@ def f_create_discipline_directories_tree():
             os.makedirs(sub_discipline_path)
 
 def f_get_disciplines_and_sub_disciplines_books_urls():
-    if platform.system()=='Windows':
-        engine = create_engine('postgresql://postgres:rootpostgres@localhost:5432/postgres')
-    else:
-        engine = create_engine('postgresql://postgres:rootBIGpostgres@192.168.26.132:5432/postgres')
-    
     sql_str='SELECT distinct discipline_name, sub_discipline_name,sub_discipline_url FROM "Springer".springer_sub_disciplines order by 1,2'
     df= pd.read_sql_query(sql_str,con=engine)
     df_len=len(df)
@@ -104,11 +97,6 @@ def f_get_disciplines_and_sub_disciplines_books_urls():
         pdf.to_sql('springer_sub_disciplines_books', engine,schema='Springer',if_exists='append', index=False,chunksize=1000)
 
 def f_download_books():  
-    if platform.system()=='Windows':
-        engine = create_engine('postgresql://postgres:rootpostgres@localhost:5432/postgres')
-    else:
-        engine = create_engine('postgresql://postgres:rootBIGpostgres@192.168.26.132:5432/postgres')
-    
     sql_str='SELECT book_title, book_url, discipline_name, sub_discipline_name FROM "Springer".v_springer_sub_disciplines_books order by 3,4'
     df= pd.read_sql_query(sql_str,con=engine)
     df_len=len(df)
