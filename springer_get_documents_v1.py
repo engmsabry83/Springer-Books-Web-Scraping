@@ -109,14 +109,3 @@ def main():
     
 if __name__=='__main__':
     main()
-    
-    
-    
-    
-"""
-url='https://link.springer.com/book/10.1007/978-3-319-11137-7'
-url='https://link.springer.com/content/pdf/10.1007%2F978-3-319-11137-7.pdf'
-res=f_get_url(url)
-with open('book2.pdf', 'wb') as f:
-    f.write(res.content)
-"""
